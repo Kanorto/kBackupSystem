@@ -1,33 +1,54 @@
-package vv0ta3fa9.plugin.kBackupSystem.commands;
+package vv0ta3fa9.plugin.kBackupSystem.main;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import vv0ta3fa9.plugin.kBackupSystem.kBackupSystem;
-import vv0ta3fa9.plugin.kBackupSystem.utils.Runner.Runner;
 
-public class CommandManager implements CommandExecutor {
+import java.util.*;
+
+public class CommandManager implements CommandExecutor, TabCompleter {
 
     private final kBackupSystem plugin;
-    private Runner runner;
 
-    public CommandManager(kBackupSystem plugin, Runner runner) {
+    public CommandManager(kBackupSystem plugin) {
         this.plugin = plugin;
-        this.runner = runner;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            send(sender, "§cИспользование: /kmobwaves <reload|start|stop|info|force_start>");
+            send(sender, "§cИспользование: /kbackupsystem <reload|start>");
             return true;
         }
 
         String subcommand = args[0].toLowerCase();
+        switch (subcommand) {
+            case "reload":
+                plugin.reload = true;
+                plugin.getServer().getPluginManager().disablePlugin(plugin);
+                plugin.getServer().getPluginManager().enablePlugin(plugin);
+                plugin.reload = false;
+                return true;
+            case "start":
+                plugin.getLogger().info("| Запуск принудительного бэкапа всех миров из списка...");
+                plugin.getBackupManager().createBackupsAllWorlds();
+                return true;
+        }
         return false;
     }
 
     private void send(CommandSender sender, String msg) {
-        sender.sendMessage(plugin.getConfigManager().COLORIZER.colorize(msg));
+        sender.sendMessage(plugin.getColorizer().colorize(msg));
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (args.length == 1) {
+            return Arrays.asList("reload", "start");
+        }
+
+        return Collections.emptyList();
     }
 }

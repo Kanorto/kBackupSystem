@@ -1,31 +1,49 @@
-package vv0ta3fa9.plugin.kParticleTools;
+package vv0ta3fa9.plugin.kBackupSystem;
 
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import vv0ta3fa9.plugin.kParticleTools.commands.CommandManager;
-import vv0ta3fa9.plugin.kParticleTools.utils.ConfigManager;
-import vv0ta3fa9.plugin.kParticleTools.utils.DataManager;
-import vv0ta3fa9.plugin.kParticleTools.utils.MessagesManager;
-import vv0ta3fa9.plugin.kParticleTools.utils.Runner.PaperRunner;
-import vv0ta3fa9.plugin.kParticleTools.utils.Runner.Runner;
-import vv0ta3fa9.plugin.kParticleTools.utils.Utils;
+import vv0ta3fa9.plugin.kBackupSystem.utils.BackupManager;
+import vv0ta3fa9.plugin.kBackupSystem.main.CommandManager;
+import vv0ta3fa9.plugin.kBackupSystem.utils.Color.Colorizer;
+import vv0ta3fa9.plugin.kBackupSystem.utils.Color.impl.LegacyColorizer;
+import vv0ta3fa9.plugin.kBackupSystem.utils.TaskManager;
+import vv0ta3fa9.plugin.kBackupSystem.utils.ConfigManager;
+import vv0ta3fa9.plugin.kBackupSystem.utils.Utils;
 
-public final class kBackSystem extends JavaPlugin {
+public final class kBackupSystem extends JavaPlugin {
 
-    private ConfigManager configManager;
-    private MessagesManager messagesManager;
-    private Utils utils;
-    private final Runner runner = new PaperRunner(this);
-    private CommandManager commandsManager;
-    private DataManager dataManager;
+    private Colorizer colorizer;
+    protected ConfigManager configManager;
+    protected Utils utils;
+    protected CommandManager commandsManager;
+    protected KBSManager kbsManager;
+    protected BackupManager backupManager;
+    protected TaskManager taskManager;
+    public boolean reload = false;
+
+    PluginManager pluginManager;
+
 
 
     @Override
     public void onEnable() {
         try {
-            loadingConfiguration();
-            configManager.setupColorizer();
-            registerCommands();
-
+            kbsManager = new KBSManager(this);
+            colorizer = new LegacyColorizer(this);
+            kbsManager.loadingConfiguration();
+            kbsManager.loadClassses();
+            kbsManager.registerCommands();
+            if (configManager.getBackupinStart() || !reload) {
+                getLogger().info("| Плагин загружен. Начат бэкап миров...");
+                backupManager.createBackupsAllWorlds();
+            }
+            if (configManager.gettask()) {
+                kbsManager.startTask();
+                getLogger().info("| Запуск задач...");
+            }
+            if (configManager.deleteolds()) {
+                backupManager.deleteOldBackups();
+            }
         } catch (Exception e) {
             getLogger().severe("ОШИБКА ВКЛЮЧЕНИЯ ПЛАГИНА! Выключение плагина...");
             e.printStackTrace();
@@ -35,30 +53,14 @@ public final class kBackSystem extends JavaPlugin {
 
     @Override
     public void onDisable() {
-    }
-
-    private void loadingConfiguration() {
-        try {
-            configManager = new ConfigManager(this, runner);
-            utils = new Utils();
-            messagesManager = new MessagesManager(this, runner);
-            commandsManager = new CommandManager(this, runner);
-            dataManager = new DataManager(this, runner);
-        } catch (Exception e) {
-            getLogger().severe("ОШИБКА ЗАГРУЗКИ КОНФИГУРАЦИИ! Выключение плагина...");
-            e.printStackTrace();
-            throw e;
+        if (configManager.getBackupinStop()) {
+            getLogger().info("| ⚠ Сервер завершается. Запуск бэкапа миров...");
+            backupManager.createBackupsAllWorlds();
         }
     }
-    private void registerCommands() {
-        if (getCommand("kparticletools") != null) getCommand("kparticletools").setExecutor(commandsManager);
-        else getLogger().severe("Команда 'kmobwaves' не найдена в plugin.yml!");
-    }
 
-    // ---- Геттеры ----
-
-    public MessagesManager getMessagesManager() {
-        return messagesManager;
+    public PluginManager getPluginManager() {
+        return pluginManager;
     }
 
     public ConfigManager getConfigManager() {
@@ -69,6 +71,12 @@ public final class kBackSystem extends JavaPlugin {
         return utils;
     }
 
-    public DataManager getDataManager() { return dataManager; }
+    public BackupManager getBackupManager() {
+        return backupManager;
+    }
+    public Colorizer getColorizer() {
+        return colorizer;
+    }
+
 
 }

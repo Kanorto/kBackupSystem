@@ -1,29 +1,19 @@
-package vv0ta3fa9.plugin.kParticleTools.utils;
+package vv0ta3fa9.plugin.kBackupSystem.utils;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import vv0ta3fa9.plugin.kParticleTools.kBackSystem;
-import vv0ta3fa9.plugin.kParticleTools.utils.Color.Colorizer;
-import vv0ta3fa9.plugin.kParticleTools.utils.Color.impl.LegacyAdvancedColorizer;
-import vv0ta3fa9.plugin.kParticleTools.utils.Color.impl.LegacyColorizer;
-import vv0ta3fa9.plugin.kParticleTools.utils.Color.impl.MiniMessageColorizer;
-import vv0ta3fa9.plugin.kParticleTools.utils.Color.impl.VanillaColorizer;
-import vv0ta3fa9.plugin.kParticleTools.utils.Runner.Runner;
-
+import vv0ta3fa9.plugin.kBackupSystem.kBackupSystem;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigManager {
-    private final kBackSystem plugin;
+    private final kBackupSystem plugin;
     protected FileConfiguration config;
     private File configFile;
-    public Colorizer COLORIZER;
-    private Runner runner;
 
-    public ConfigManager(kBackSystem plugin, Runner runner) {
+    public ConfigManager(kBackupSystem plugin) {
         this.plugin = plugin;
-        this.runner = runner;
         loadConfigFiles();
     }
 
@@ -34,7 +24,6 @@ public class ConfigManager {
                 plugin.saveResource("config.yml", false);
             } catch (Exception e) {
                 plugin.getLogger().warning("Не удалось сохранить config.yml: " + e.getMessage());
-                plugin.getLogger().warning("Создайте папку plugins/kMobWaves/ вручную и дайте права на запись");
             }
         }
         if (configFile.exists()) {
@@ -56,17 +45,40 @@ public class ConfigManager {
         return config.getStringList(path);
     }
 
-    public boolean getDebug() {
+    protected boolean getDebug() {
         return getBoolean("debug", true);
     }
 
-    public void setupColorizer() {
-        COLORIZER = switch (getString("serializer", "LEGACY").toUpperCase()) {
-            case "MINIMESSAGE" -> new MiniMessageColorizer();
-            case "LEGACY" -> new LegacyColorizer(plugin);
-            case "LEGACY_ADVANCED" -> new LegacyAdvancedColorizer(plugin);
-            default -> new VanillaColorizer(plugin);
-        };
+    public String getBackupType() {
+        String type = getString("backup-type", "Main-folder").toLowerCase();
+        switch (type) {
+            case "main-folder":
+                return "main";
+            case "plugin-folder":
+                return "plugin";
+        }
+        return "main";
+    }
+    protected List<String> getWordlList() {
+        return getStringList("world-list");
+    }
+    public boolean getBackupinStart() {
+        return getBoolean("backup-in-start", true);
+    }
+    public boolean getBackupinStop() {
+        return getBoolean("backup-in-stop", true);
+    }
+    public boolean gettask() {
+        return getBoolean("task-manager.enabled", true);
+    }
+    public int time() {
+        return config.getInt("task-manager.time", 90);
+    }
+    public boolean deleteolds() {
+        return config.getBoolean("delete-old-backups.enabled", true);
+    }
+    protected int getdaystodelete() {
+        return config.getInt("delete-old-backups.max-backup-age", 7);
     }
 }
 
