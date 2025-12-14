@@ -42,7 +42,6 @@ public class kBackupSystem extends JavaPlugin {
             backupManager = new BackupManager(this);
             backupManager = new BackupManager(this);
             configManager = new ConfigManager(this);
-            utils = new Utils();
             commandsManager = new CommandManager(this);
         } catch (Exception e) {
             getLogger().severe("ОШИБКА ЗАГРУЗКИ КОНФИГУРАЦИИ! Выключение плагина...");
