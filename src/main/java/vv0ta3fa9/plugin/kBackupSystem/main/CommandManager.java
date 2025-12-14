@@ -19,7 +19,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            send(sender, "§cИспользование: /kbackupsystem <reload|start>");
+            send(sender, "&cИспользование: /kbackupsystem <reload|start>");
             return true;
         }
 

@@ -1,7 +1,6 @@
 package vv0ta3fa9.plugin.kBackupSystem.utils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import vv0ta3fa9.plugin.kBackupSystem.kBackupSystem;
 
 import java.io.File;
@@ -82,10 +81,8 @@ public class BackupManager {
 
         if (debug) plugin.getLogger().info("| [DEBUG] Индекс мира: " + index);
 
-        // Запуск асинхронного бэкапа
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-            // Выполнить бэкап
             createBackupWorlds(worldName);
 
             if (debug) plugin.getLogger().info("| [DEBUG] Мир " + worldName + " успешно обработан");
@@ -150,7 +147,6 @@ public class BackupManager {
             try (FileOutputStream fos = new FileOutputStream(archive);
                  ZipOutputStream zos = new ZipOutputStream(fos)) {
 
-                // Передаём корневую папку как entryName, чтобы в архиве была папка worldName/
                 String rootEntryName = sourceDir.getName() + "/";
                 zipDirectory(sourceDir, rootEntryName, zos, debug);
 

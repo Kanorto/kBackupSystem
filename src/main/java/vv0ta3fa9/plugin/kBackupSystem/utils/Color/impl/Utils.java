@@ -1,11 +1,11 @@
-package vv0ta3fa9.plugin.kBackupSystem.utils;
+package vv0ta3fa9.plugin.kBackupSystem.utils.Color.impl;
 
 public class Utils {
 
-    public final char COLOR_CHAR = '§';
+    protected final char COLOR_CHAR = '§';
 
 
-    public String translateAlternateColorCodes(char altColorChar, String textToTranslate) {
+    protected String translateAlternateColorCodes(char altColorChar, String textToTranslate) {
         final char[] b = textToTranslate.toCharArray();
 
         for (int i = 0, length = b.length - 1; i < length; i++) {

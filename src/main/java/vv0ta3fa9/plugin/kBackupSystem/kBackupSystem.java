@@ -2,73 +2,63 @@ package vv0ta3fa9.plugin.kBackupSystem;
 
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import vv0ta3fa9.plugin.kBackupSystem.utils.BackupManager;
 import vv0ta3fa9.plugin.kBackupSystem.main.CommandManager;
+import vv0ta3fa9.plugin.kBackupSystem.utils.BackupManager;
 import vv0ta3fa9.plugin.kBackupSystem.utils.Color.Colorizer;
 import vv0ta3fa9.plugin.kBackupSystem.utils.Color.impl.LegacyColorizer;
-import vv0ta3fa9.plugin.kBackupSystem.utils.TaskManager;
 import vv0ta3fa9.plugin.kBackupSystem.utils.ConfigManager;
-import vv0ta3fa9.plugin.kBackupSystem.utils.Utils;
+import vv0ta3fa9.plugin.kBackupSystem.utils.Color.impl.Utils;
 
-public final class kBackupSystem extends JavaPlugin {
+public class kBackupSystem extends JavaPlugin {
 
     private Colorizer colorizer;
     protected ConfigManager configManager;
     protected Utils utils;
     protected CommandManager commandsManager;
     protected KBSManager kbsManager;
-    protected BackupManager backupManager;
-    protected TaskManager taskManager;
+    protected BackupManager backupManager = new BackupManager(this);
     public boolean reload = false;
 
     PluginManager pluginManager;
 
 
+    protected void startTask() {
+        long intervalTicks = getConfigManager().time() * 60L * 20L;
 
-    @Override
-    public void onEnable() {
+        getServer().getScheduler().runTaskTimerAsynchronously(
+                this,
+                () -> getBackupManager().createBackupsAllWorlds(),
+                intervalTicks,
+                intervalTicks
+        );
+
+        getLogger().info("| [BackupScheduler] Задача начата: "
+                + getConfigManager().time() + " min.");
+    }
+
+    protected void loadingConfiguration() {
         try {
-            kbsManager = new KBSManager(this);
-            colorizer = new LegacyColorizer(this);
-            kbsManager.loadingConfiguration();
-            kbsManager.loadClassses();
-            kbsManager.registerCommands();
-            if (configManager.getBackupinStart() || !reload) {
-                getLogger().info("| Плагин загружен. Начат бэкап миров...");
-                backupManager.createBackupsAllWorlds();
-            }
-            if (configManager.gettask()) {
-                kbsManager.startTask();
-                getLogger().info("| Запуск задач...");
-            }
-            if (configManager.deleteolds()) {
-                backupManager.deleteOldBackups();
-            }
+            colorizer = new LegacyColorizer();
+            backupManager = new BackupManager(this);
+            backupManager = new BackupManager(this);
+            configManager = new ConfigManager(this);
+            utils = new Utils();
+            commandsManager = new CommandManager(this);
         } catch (Exception e) {
-            getLogger().severe("ОШИБКА ВКЛЮЧЕНИЯ ПЛАГИНА! Выключение плагина...");
+            getLogger().severe("ОШИБКА ЗАГРУЗКИ КОНФИГУРАЦИИ! Выключение плагина...");
             e.printStackTrace();
-            getServer().getPluginManager().disablePlugin(this);
+            throw e;
         }
     }
-
-    @Override
-    public void onDisable() {
-        if (configManager.getBackupinStop()) {
-            getLogger().info("| ⚠ Сервер завершается. Запуск бэкапа миров...");
-            backupManager.createBackupsAllWorlds();
-        }
+    protected void registerCommands() {
+        if (getCommand("kbackupsystem") != null) getCommand("kbackupsystem").setExecutor(commandsManager);
+        else getLogger().severe("Команда 'kbackupsystem' не найдена в plugin.yml!");
     }
 
-    public PluginManager getPluginManager() {
-        return pluginManager;
-    }
+
 
     public ConfigManager getConfigManager() {
         return configManager;
-    }
-
-    public Utils getUtils() {
-        return utils;
     }
 
     public BackupManager getBackupManager() {
