@@ -172,6 +172,7 @@ public class BackupManager {
      * @throws IOException
      */
     private void zipDirectory(File file, String entryName, ZipOutputStream zos, boolean debug) throws IOException {
+
         if (file.isDirectory()) {
             ZipEntry dirEntry = new ZipEntry(entryName);
             zos.putNextEntry(dirEntry);
