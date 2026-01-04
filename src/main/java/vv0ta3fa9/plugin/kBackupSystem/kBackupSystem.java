@@ -1,5 +1,6 @@
 package vv0ta3fa9.plugin.kBackupSystem;
 
+import lombok.Getter;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import vv0ta3fa9.plugin.kBackupSystem.main.CommandManager;
@@ -7,13 +8,11 @@ import vv0ta3fa9.plugin.kBackupSystem.utils.BackupManager;
 import vv0ta3fa9.plugin.kBackupSystem.utils.Color.Colorizer;
 import vv0ta3fa9.plugin.kBackupSystem.utils.Color.impl.LegacyColorizer;
 import vv0ta3fa9.plugin.kBackupSystem.utils.ConfigManager;
-import vv0ta3fa9.plugin.kBackupSystem.utils.Color.impl.Utils;
 
+@Getter
 public class kBackupSystem extends JavaPlugin {
-
     private Colorizer colorizer;
     protected ConfigManager configManager;
-    protected Utils utils;
     protected CommandManager commandsManager;
     protected KBSManager kbsManager;
     protected BackupManager backupManager = new BackupManager(this);
@@ -56,16 +55,6 @@ public class kBackupSystem extends JavaPlugin {
 
 
 
-    public ConfigManager getConfigManager() {
-        return configManager;
-    }
-
-    public BackupManager getBackupManager() {
-        return backupManager;
-    }
-    public Colorizer getColorizer() {
-        return colorizer;
-    }
 
 
 }
