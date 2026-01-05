@@ -7,14 +7,14 @@ public final class KBSManager extends kBackupSystem{
     @Override
     public void onEnable() {
         try {
-            kbsManager.loadingConfiguration();
-            kbsManager.registerCommands();
+            loadingConfiguration();
+            registerCommands();
             if (configManager.getBackupinStart() || !reload) {
                 getLogger().info(getMessageManager().getMessage("plugin.loaded.backup_started"));
                 backupManager.createBackupsAllWorlds();
             }
             if (configManager.gettask()) {
-                kbsManager.startTask();
+                startTask();
                 getLogger().info(getMessageManager().getMessage("plugin.tasks.started"));
             }
             if (configManager.deleteolds()) {

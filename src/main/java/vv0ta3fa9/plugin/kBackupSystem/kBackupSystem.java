@@ -16,7 +16,6 @@ public class kBackupSystem extends JavaPlugin {
     protected ConfigManager configManager;
     protected MessageManager messageManager;
     protected CommandManager commandsManager;
-    protected KBSManager kbsManager;
     protected BackupManager backupManager;
     public boolean reload = false;
 
@@ -55,8 +54,24 @@ public class kBackupSystem extends JavaPlugin {
         else getLogger().severe(getMessageManager().getMessage("plugin.command.not_found"));
     }
 
+    // Explicit getter methods to ensure compatibility
+    public Colorizer getColorizer() {
+        return colorizer;
+    }
 
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
 
+    public MessageManager getMessageManager() {
+        return messageManager;
+    }
 
+    public CommandManager getCommandsManager() {
+        return commandsManager;
+    }
 
+    public BackupManager getBackupManager() {
+        return backupManager;
+    }
 }
