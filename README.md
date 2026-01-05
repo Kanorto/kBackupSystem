@@ -23,8 +23,12 @@
 
 ---
 
-## 📌 Main idea
+<table>
+<tr>
+<td width="50%">
 
+ 
+### 📌 Main idea
 kBackupSystem is a high-performance plugin for automatic and manual backup of Minecraft worlds, designed for minimal server load and complete data preservation.
 
 The plugin allows you to:
@@ -36,10 +40,10 @@ The plugin allows you to:
 - Flexibly configure the archive storage directory
 - Create ZIP archives at high speed with detailed debug logging
 
----
+</td>
+<td width="50%">
 
-
-## 🏆 Why is kBackupSystem better than others?
+### 🏆 Why is kBackupSystem better than others?
 
 - Does not block the main thread
 - Supports multi-world servers
@@ -50,7 +54,13 @@ The plugin allows you to:
 - Supports backup on startup, shutdown, and on schedule
 - Ability to perform manual backups
 
-## 🚀 Plugin advantages
+</td>
+</tr>
+</table>
+
+---
+
+## 🚀 Plugin advantages1
  1. Minimal load on the server
 
 All archiving is performed asynchronously, which eliminates lag and freezes of the main server tick.
