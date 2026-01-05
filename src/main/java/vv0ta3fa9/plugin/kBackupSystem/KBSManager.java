@@ -10,18 +10,18 @@ public final class KBSManager extends kBackupSystem{
             kbsManager.loadingConfiguration();
             kbsManager.registerCommands();
             if (configManager.getBackupinStart() || !reload) {
-                getLogger().info("| Плагин загружен. Начат бэкап миров...");
+                getLogger().info(getMessageManager().getMessage("plugin.loaded.backup_started"));
                 backupManager.createBackupsAllWorlds();
             }
             if (configManager.gettask()) {
                 kbsManager.startTask();
-                getLogger().info("| Запуск задач...");
+                getLogger().info(getMessageManager().getMessage("plugin.tasks.started"));
             }
             if (configManager.deleteolds()) {
                 backupManager.deleteOldBackups();
             }
         } catch (Exception e) {
-            getLogger().severe("ОШИБКА ВКЛЮЧЕНИЯ ПЛАГИНА! Выключение плагина...");
+            getLogger().severe(getMessageManager().getMessage("config.error.enabling"));
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
         }
@@ -30,7 +30,7 @@ public final class KBSManager extends kBackupSystem{
     @Override
     public void onDisable() {
         if (configManager.getBackupinStop()) {
-            getLogger().info("| ⚠ Сервер завершается. Запуск бэкапа миров...");
+            getLogger().info(getMessageManager().getMessage("plugin.shutdown.backup_started"));
             backupManager.createBackupsAllWorlds();
         }
     }

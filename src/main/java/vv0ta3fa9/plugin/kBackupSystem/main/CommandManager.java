@@ -19,20 +19,21 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            send(sender, "&cИспользование: /kbackupsystem <reload|start>");
+            send(sender, plugin.getMessageManager().getMessage("command.usage"));
             return true;
         }
 
         String subcommand = args[0].toLowerCase();
         switch (subcommand) {
             case "reload":
+                send(sender, plugin.getMessageManager().getMessage("command.reload.initiated"));
                 plugin.reload = true;
                 plugin.getServer().getPluginManager().disablePlugin(plugin);
                 plugin.getServer().getPluginManager().enablePlugin(plugin);
                 plugin.reload = false;
                 return true;
             case "start":
-                plugin.getLogger().info("| Запуск принудительного бэкапа всех миров из списка...");
+                plugin.getLogger().info(plugin.getMessageManager().getMessage("command.start.initiated"));
                 plugin.getBackupManager().createBackupsAllWorlds();
                 return true;
         }

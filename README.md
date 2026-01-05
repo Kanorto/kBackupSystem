@@ -37,6 +37,7 @@ The plugin allows you to:
 - Make manual backups on command
 - Flexibly configure the archive storage directory
 - Create ZIP archives at high speed with detailed debug logging
+- Multi-language support (Russian and English)
 
 </td>
 <td width="50%">
@@ -50,6 +51,7 @@ The plugin allows you to:
 - Structured and easily modifiable code
 - Supports backup on startup, shutdown, and on schedule
 - Ability to perform manual backups
+- Multi-language support: Russian and English
 
 </td>
 </tr>
@@ -123,6 +125,42 @@ Optimized buffers (up to 16K) are used, which speeds up the archiving of large w
 
 ---
 
+## ⚙️ Configuration
+
+The plugin is configured via the `config.yml` file in the plugin folder:
+
+```yaml
+# Plugin language: ru (Russian) or en (English)
+language: ru
+
+# Detailed logging (true/false)
+debug: true
+
+# List of worlds for backup
+world-list:
+  - "world"
+  - "world_nether"
+  - "world_the_end"
+
+# Backup storage type
+# Main-folder - in the server root folder
+# Plugin-folder - in the plugin folder
+backup-type: Main-folder
+
+# Automatic backup scheduling
+task-manager:
+  enabled: true
+  time: 60  # interval in minutes
+
+# Backup on plugin start/stop
+backup-in-start: true
+backup-in-stop: true
+
+# Automatic deletion of old backups
+delete-old-backups:
+  enabled: true
+  max-backup-age: 7  # maximum age in days
+```
 
 ## 🛠 Commands
 

@@ -25,28 +25,32 @@ public class BackupManager {
 
         try {
             plugin.getLogger().info(".------------");
-            plugin.getLogger().info("| Настройка директории бэкапов...");
+            plugin.getLogger().info(plugin.getMessageManager().getMessage("plugin.loading.configuration"));
 
             if (plugin.getConfigManager().getBackupType().equals("main")) {
                 backupDir = new File(plugin.getDataFolder().getParentFile().getParentFile(), "backups");
-                plugin.getLogger().info("| Используется корневая директория /backups/");
+                plugin.getLogger().info(plugin.getMessageManager().getMessage("backup.dir.using_main"));
             } else {
                 backupDir = new File(plugin.getDataFolder(), "backups");
-                plugin.getLogger().info("| Используется локальная директория плагина /backups/");
+                plugin.getLogger().info(plugin.getMessageManager().getMessage("backup.dir.using_plugin"));
             }
 
             if (!backupDir.exists()) {
                 if (backupDir.mkdirs()) {
-                    plugin.getLogger().info("| ✅ Папка создана: " + backupDir.getPath());
+                    plugin.getLogger().info(plugin.getMessageManager().getMessage("backup.dir.created", 
+                            "{path}", backupDir.getPath()));
                 } else {
-                    plugin.getLogger().warning("| ❌ Не удалось создать папку: " + backupDir.getPath());
+                    plugin.getLogger().warning(plugin.getMessageManager().getMessage("backup.dir.failed", 
+                            "{path}", backupDir.getPath()));
                 }
             }
 
-            if (debug) plugin.getLogger().info("| [DEBUG] backupDir = " + backupDir.getAbsolutePath());
+            if (debug) plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.backup_dir", 
+                    "{path}", backupDir.getAbsolutePath()));
 
         } catch (Exception e) {
-            plugin.getLogger().severe("| ❌ Ошибка инициализации BackupManager: " + e.getMessage());
+            plugin.getLogger().severe(plugin.getMessageManager().getMessage("backup.dir.init_error", 
+                    "{error}", e.getMessage()));
         }
     }
 
@@ -55,13 +59,14 @@ public class BackupManager {
         boolean debug = plugin.getConfigManager().getDebug();
 
         if (worlds == null || worlds.isEmpty()) {
-            plugin.getLogger().warning("| ❌ Список миров пуст или не найден в конфиге!");
+            plugin.getLogger().warning(plugin.getMessageManager().getMessage("backup.worlds.list_empty"));
             return;
         }
 
-        plugin.getLogger().info("| Запуск последовательного бэкапа миров...");
+        plugin.getLogger().info(plugin.getMessageManager().getMessage("backup.worlds.started"));
 
-        if (debug) plugin.getLogger().info("| [DEBUG] Миров в списке: " + worlds.size());
+        if (debug) plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.worlds_count", 
+                "{count}", String.valueOf(worlds.size())));
 
         backupNextWorld(worlds, 0);
     }
@@ -70,22 +75,25 @@ public class BackupManager {
         boolean debug = plugin.getConfigManager().getDebug();
 
         if (index >= worlds.size()) {
-            plugin.getLogger().info("| ✅ Все бэкапы миров завершены!");
+            plugin.getLogger().info(plugin.getMessageManager().getMessage("backup.worlds.completed"));
             return;
         }
 
         String worldName = worlds.get(index);
 
-        plugin.getLogger().info("| -----------------------------");
-        plugin.getLogger().info("| Начат бэкап мира: " + worldName);
+        plugin.getLogger().info(plugin.getMessageManager().getMessage("backup.world.separator"));
+        plugin.getLogger().info(plugin.getMessageManager().getMessage("backup.world.started", 
+                "{world}", worldName));
 
-        if (debug) plugin.getLogger().info("| [DEBUG] Индекс мира: " + index);
+        if (debug) plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.world_index", 
+                "{index}", String.valueOf(index)));
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
             createBackupWorlds(worldName);
 
-            if (debug) plugin.getLogger().info("| [DEBUG] Мир " + worldName + " успешно обработан");
+            if (debug) plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.world_processed", 
+                    "{world}", worldName));
 
             // Переход к следующему миру с задержкой
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -101,29 +109,35 @@ public class BackupManager {
             boolean debug = plugin.getConfigManager().getDebug();
 
             try {
-                if (debug) plugin.getLogger().info("| [DEBUG] Запуск создания бэкапа мира: " + worldName);
+                if (debug) plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.backup_start", 
+                        "{world}", worldName));
 
                 File worldDir = Bukkit.getWorld(worldName).getWorldFolder();
 
                 if (!worldDir.exists()) {
-                    plugin.getLogger().warning("| ❌ Папка мира не найдена: " + worldDir);
+                    plugin.getLogger().warning(plugin.getMessageManager().getMessage("backup.world.folder_not_found", 
+                            "{path}", worldDir.toString()));
                     return;
                 }
 
-                if (debug) plugin.getLogger().info("| [DEBUG] Папка мира: " + worldDir.getAbsolutePath());
+                if (debug) plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.world_folder", 
+                        "{path}", worldDir.getAbsolutePath()));
 
                 File archive = createZipArchive(worldDir, worldName);
 
                 if (archive == null) {
-                    plugin.getLogger().warning("| ❌ Ошибка при создании архива");
+                    plugin.getLogger().warning(plugin.getMessageManager().getMessage("backup.world.archive_error"));
                     return;
                 }
 
                 long duration = (System.currentTimeMillis() - startTime);
-                plugin.getLogger().info("| ✅ Бэкап создан: " + archive.getName() + " (" + duration + " ms)");
+                plugin.getLogger().info(plugin.getMessageManager().getMessage("backup.world.completed", 
+                        "{archive}", archive.getName(), 
+                        "{duration}", String.valueOf(duration)));
 
             } catch (Exception e) {
-                plugin.getLogger().severe("| ❌ Ошибка при создании бэкапа: " + e.getMessage());
+                plugin.getLogger().severe(plugin.getMessageManager().getMessage("backup.world.error", 
+                        "{error}", e.getMessage()));
                 e.printStackTrace();
             }
         });
@@ -142,7 +156,8 @@ public class BackupManager {
             if (!backupDir.exists()) backupDir.mkdirs();
             File archive = new File(backupDir, archiveName);
 
-            if (debug) plugin.getLogger().info("| [DEBUG] Создание ZIP архива: " + archive.getAbsolutePath());
+            if (debug) plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.archive_creating", 
+                    "{path}", archive.getAbsolutePath()));
 
             try (FileOutputStream fos = new FileOutputStream(archive);
                  ZipOutputStream zos = new ZipOutputStream(fos)) {
@@ -156,7 +171,8 @@ public class BackupManager {
             return archive;
 
         } catch (Exception e) {
-            plugin.getLogger().severe("| ❌ Ошибка создания архива: " + e.getMessage());
+            plugin.getLogger().severe(plugin.getMessageManager().getMessage("archive.creation.error", 
+                    "{error}", e.getMessage()));
             e.printStackTrace();
             return null;
         }
@@ -182,7 +198,9 @@ public class BackupManager {
             if (children == null) return;
 
             if (debug) {
-                plugin.getLogger().info("| [DEBUG] Папка: " + file.getAbsolutePath() + " (" + children.length + " файлов)");
+                plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.folder_info", 
+                        "{path}", file.getAbsolutePath(), 
+                        "{count}", String.valueOf(children.length)));
             }
 
             for (File child : children) {
@@ -191,7 +209,9 @@ public class BackupManager {
             }
             return;
         }
-        if (debug) plugin.getLogger().info("| [DEBUG] Файл: " + entryName + " (размер=" + file.length() + " байт)");
+        if (debug) plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.file_info", 
+                "{entry}", entryName, 
+                "{size}", String.valueOf(file.length())));
 
         ZipEntry entry = new ZipEntry(entryName);
         zos.putNextEntry(entry);
@@ -208,7 +228,7 @@ public class BackupManager {
     }
     public void deleteOldBackups() {
         if (backupDir == null || !backupDir.exists()) {
-            plugin.getLogger().warning("| ❌ Папка backups не найдена. Очистка невозможна.");
+            plugin.getLogger().warning(plugin.getMessageManager().getMessage("delete.folder_not_found"));
             return;
         }
 
@@ -221,31 +241,35 @@ public class BackupManager {
         File[] files = backupDir.listFiles((dir, name) -> name.endsWith(".zip"));
 
         if (files == null || files.length == 0) {
-            plugin.getLogger().info("| Нет архивов для проверки.");
+            plugin.getLogger().info(plugin.getMessageManager().getMessage("delete.no_archives"));
             return;
         }
 
-        plugin.getLogger().info("| -----------------------------");
-        plugin.getLogger().info("| Очистка бэкапов старше " + days + " дней...");
+        plugin.getLogger().info(plugin.getMessageManager().getMessage("backup.world.separator"));
+        plugin.getLogger().info(plugin.getMessageManager().getMessage("delete.started", 
+                "{days}", String.valueOf(days)));
 
         for (File f : files) {
             long age = now - f.lastModified();
 
             if (debug) {
-                plugin.getLogger().info("| [DEBUG] Проверка: " + f.getName() +
-                        " | Возраст: " + (age / 1000 / 60 / 60 / 24) + " дней");
+                plugin.getLogger().info(plugin.getMessageManager().getMessage("debug.delete_checking", 
+                        "{file}", f.getName(), 
+                        "{age}", String.valueOf(age / 1000 / 60 / 60 / 24)));
             }
 
             if (age > maxAge) {
                 if (f.delete()) {
-                    plugin.getLogger().info("| 🗑 Удалён старый бэкап: " + f.getName());
+                    plugin.getLogger().info(plugin.getMessageManager().getMessage("delete.file_deleted", 
+                            "{file}", f.getName()));
                 } else {
-                    plugin.getLogger().warning("| ❌ Не удалось удалить: " + f.getName());
+                    plugin.getLogger().warning(plugin.getMessageManager().getMessage("delete.file_failed", 
+                            "{file}", f.getName()));
                 }
             }
         }
 
-        plugin.getLogger().info("| Очистка завершена.");
+        plugin.getLogger().info(plugin.getMessageManager().getMessage("delete.completed"));
     }
 
 }

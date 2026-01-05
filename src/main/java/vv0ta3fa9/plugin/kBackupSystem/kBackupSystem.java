@@ -8,14 +8,16 @@ import vv0ta3fa9.plugin.kBackupSystem.utils.BackupManager;
 import vv0ta3fa9.plugin.kBackupSystem.utils.Color.Colorizer;
 import vv0ta3fa9.plugin.kBackupSystem.utils.Color.impl.LegacyColorizer;
 import vv0ta3fa9.plugin.kBackupSystem.utils.ConfigManager;
+import vv0ta3fa9.plugin.kBackupSystem.utils.MessageManager;
 
 @Getter
 public class kBackupSystem extends JavaPlugin {
     private Colorizer colorizer;
     protected ConfigManager configManager;
+    protected MessageManager messageManager;
     protected CommandManager commandsManager;
     protected KBSManager kbsManager;
-    protected BackupManager backupManager = new BackupManager(this);
+    protected BackupManager backupManager;
     public boolean reload = false;
 
     PluginManager pluginManager;
@@ -31,16 +33,16 @@ public class kBackupSystem extends JavaPlugin {
                 intervalTicks
         );
 
-        getLogger().info("| [BackupScheduler] Задача начата: "
-                + getConfigManager().time() + " min.");
+        getLogger().info(getMessageManager().getMessage("backup.task.started", 
+                "{time}", String.valueOf(getConfigManager().time())));
     }
 
     protected void loadingConfiguration() {
         try {
             colorizer = new LegacyColorizer();
-            backupManager = new BackupManager(this);
-            backupManager = new BackupManager(this);
             configManager = new ConfigManager(this);
+            messageManager = new MessageManager(this);
+            backupManager = new BackupManager(this);
             commandsManager = new CommandManager(this);
         } catch (Exception e) {
             getLogger().severe("ОШИБКА ЗАГРУЗКИ КОНФИГУРАЦИИ! Выключение плагина...");
@@ -50,7 +52,7 @@ public class kBackupSystem extends JavaPlugin {
     }
     protected void registerCommands() {
         if (getCommand("kbackupsystem") != null) getCommand("kbackupsystem").setExecutor(commandsManager);
-        else getLogger().severe("Команда 'kbackupsystem' не найдена в plugin.yml!");
+        else getLogger().severe(getMessageManager().getMessage("plugin.command.not_found"));
     }
 
 
