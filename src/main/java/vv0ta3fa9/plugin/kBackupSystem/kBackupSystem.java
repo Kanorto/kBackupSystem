@@ -16,7 +16,6 @@ public class kBackupSystem extends JavaPlugin {
     protected ConfigManager configManager;
     protected MessageManager messageManager;
     protected CommandManager commandsManager;
-    protected KBSManager kbsManager;
     protected BackupManager backupManager;
     public boolean reload = false;
 
@@ -70,10 +69,6 @@ public class kBackupSystem extends JavaPlugin {
 
     public CommandManager getCommandsManager() {
         return commandsManager;
-    }
-
-    public KBSManager getKbsManager() {
-        return kbsManager;
     }
 
     public BackupManager getBackupManager() {
