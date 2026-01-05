@@ -1,3 +1,7 @@
+# Language: ru (Russian) or en (English)
+# Язык: ru (Русский) или en (Английский)
+language: ru
+#
 # set true to gate more information
 debug: true
 #
