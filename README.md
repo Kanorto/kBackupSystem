@@ -1,107 +1,119 @@
 # kBackupSystem
 
-Эффективная, безопасная и полностью автоматическая система резервного копирования миров Minecraft.
-Разработчик: vv0ta3fa9 (ImFriendlyy)
+An efficient, secure, and fully automatic backup system for Minecraft worlds.
+Developer: vv0ta3fa9 (ImFriendlyy)
 
 ---
 
-## 📌 Основная идея
+## 📌 Main idea
 
-kBackupSystem — это высокопроизводительный плагин для автоматического и ручного резервного копирования миров Minecraft, созданный для минимальной нагрузки на сервер и полной сохранности данных.
+kBackupSystem is a high-performance plugin for automatic and manual backup of Minecraft worlds, designed for minimal server load and complete data preservation.
 
-Плагин позволяет:
+The plugin allows you to:
 
-- Автоматически архивировать миры через указанный интервал
-- Сохранять резервные копии при запуске и остановке сервера
-- Удалять старые бекапы старше указанного количества дней
-- Делать ручные бекапы по команде
-- Гибко настраивать директорию хранения архивов
-- Создавать ZIP-архивы с высокой скоростью и подробным debug-логированием
-
----
-
-## 🏆 Почему kBackupSystem лучше других?
-
-- Не блокирует главный поток
-- Поддерживает многомировые сервера
-- Имеет систему автоудаления
-- Корректно архивирует пустые директории
-- Имеет подробный и аккуратный debug
-- Структурированный и легко модифицируемый код
-- Поддержка резервирования при запуске, остановке и по расписанию
-- Возможность ручных бекапов
-
-## 🚀 Преимущества плагина
- 1. Минимальная нагрузка на сервер
-
-Все архивирование происходит асинхронно, что исключает лаги и зависания основного тика сервера.
-
- 2. Корректное архивирование всей папки мира
-
-Плагин сохраняет:
-
-- корневую папку мира
-- все файлы и вложенные папки
-- пустые директории
-- корректную структуру ZIP
-- Это важно для переносов и аварийных восстановлений.
+- Automatically archive worlds at specified intervals
+- Save backups when starting and stopping the server
+- Delete old backups older than a specified number of days
+- Make manual backups on command
+- Flexibly configure the archive storage directory
+- Create ZIP archives at high speed with detailed debug logging
 
 ---
 
-## 🧠 3. Умная система задач
 
-Встроенный планировщик позволяет выполнять бекапы:
+## 🏆 Why is kBackupSystem better than others?
 
-- автоматически через N минут
-- при запуске сервера
-- при остановке сервера
+- Does not block the main thread
+- Supports multi-world servers
+- Has an auto-deletion system
+- Correctly archives empty directories
+- Has detailed and accurate debugging
+- Structured and easily modifiable code
+- Supports backup on startup, shutdown, and on schedule
+- Ability to perform manual backups
+
+## 🚀 Plugin advantages
+ 1. Minimal load on the server
+
+All archiving is performed asynchronously, which eliminates lag and freezes of the main server tick.
+
+ 2. Correct archiving of the entire world folder
+
+The plugin saves:
+
+- the root folder of the world
+- all files and subfolders
+- empty directories
+- the correct ZIP structure
+- This is important for transfers and emergency recoveries.
 
 ---
 
-## 🧹 4. Автоматическое удаление старых бекапов
+## 🧠 3. Smart task system
 
-Плагин автоматически очищает резервные копии старше указанного количества дней.
+The built-in scheduler allows you to perform backups:
 
----
-
-## 📁 5. Два режима хранения
-
-- Main-folder — в корне сервера
-
-- Plugin-folder — в папке плагина
+- automatically after N minutes
+- when the server starts
+- when the server stops
 
 ---
 
-## 🧪 6. Подробное debug-логирование
+## 🧹 4. Automatic deletion of old backups
 
-При debug: true плагин выводит:
+The plugin automatically clears backups older than the specified number of days.
 
-- какие файлы архивируются
-- время старта/конца
-- размер и путь архива
-- информацию о мире
-- директории, файлы, исключения
+---
 
-## 🔧 7. Простота интеграции и кастомизации
+## 📁 5. Two storage modes
 
-Каждый метод структурирован, разделён по менеджерам, вызывается одной командой.
+- Main-folder — in the server root
 
-## ⚡ 8. Высокая скорость ZIP
+- Plugin-folder — in the plugin folder
 
-Используются оптимизированные буферы (до 16К), что ускоряет архивирование больших миров.
+---
 
-## 🛠 Команды
+## 🧪 6. Detailed debug logging
+
+When debug: true, the plugin outputs:
+
+- which files are being archived
+- start/end time
+- archive size and path
+- world information
+- directories, files, exceptions
+
+---
+
+## 🔧 7. Easy integration and customization
+
+Each method is structured, divided by managers, and called with a single command.
+
+---
 
 
-| Команда                  | Описание                                      | Права               |
-|--------------------------|-----------------------------------------------|---------------------|
-| `/kbackupsystem reload`     | Перезагрузка плагина                           | `kbackupsystem.admin`   |
-| `/kbackupsystem start`      | Принудительный запуск бекапа                                 | `kbackupsystem.admin`   |
+## ⚡ 8. High ZIP speed
+
+Optimized buffers (up to 16K) are used, which speeds up the archiving of large worlds.
+
+---
 
 
-## 📁 Структура архива
+## 🛠 Commands
 
-Пример архива:
+
+| Command                  | Description                                      | Permissions               |
+|----------------- ---------|-----------------------------------------------|-------------------- -|
+| `/kbackupsystem reload`     | Reload plugin                           | `kbackupsystem.admin`   |
+| `/kbackupsystem start`      | Force backup start                                 | `kbackupsystem.admin`   |
+
+
+---
+
+
+## 📁 Archive structure
+
+Archive example:
 
 world_2025-01-01_14-03-29.zip
 └── world/
