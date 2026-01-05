@@ -3,6 +3,7 @@
 # 🌊 kBackupSystem
 
 **An efficient, secure, and fully automatic backup system for Minecraft worlds**
+**kBackupSystem is a high-performance plugin for automatic and manual backup of Minecraft worlds, designed for minimal server load and complete data preservation.**
 
 [![Latest Release](https://img.shields.io/github/v/release/ImFriendlyy/kBackupSystem?style=for-the-badge&logo=github&label=Release)](https://github.com/ImFriendlyy/kBackupSystem/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/ImFriendlyy/kBackupSystem/total?style=for-the-badge&logo=github&label=Downloads)](https://github.com/ImFriendlyy/kBackupSystem/releases)
@@ -29,10 +30,7 @@
 
  
 ### 📌 Main idea
-kBackupSystem is a high-performance plugin for automatic and manual backup of Minecraft worlds, designed for minimal server load and complete data preservation.
-
 The plugin allows you to:
-
 - Automatically archive worlds at specified intervals
 - Save backups when starting and stopping the server
 - Delete old backups older than a specified number of days
@@ -44,7 +42,6 @@ The plugin allows you to:
 <td width="50%">
 
 ### 🏆 Why is kBackupSystem better than others?
-
 - Does not block the main thread
 - Supports multi-world servers
 - Has an auto-deletion system
