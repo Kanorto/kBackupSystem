@@ -14,7 +14,6 @@ plugin.shutdown.backup_started: "| ⚠ Сервер завершается. За
 plugin.command.not_found: "Команда 'kbackupsystem' не найдена в plugin.yml!"
 
 # Configuration errors
-config.load.failed: "Не удалось сохранить config.yml: {error}"
 config.error.loading: "ОШИБКА ЗАГРУЗКИ КОНФИГУРАЦИИ! Выключение плагина..."
 config.error.enabling: "ОШИБКА ВКЛЮЧЕНИЯ ПЛАГИНА! Выключение плагина..."
 

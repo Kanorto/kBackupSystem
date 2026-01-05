@@ -13,7 +13,6 @@ plugin.shutdown.backup_started: "| ⚠ Server is shutting down. Starting world b
 plugin.command.not_found: "Command 'kbackupsystem' not found in plugin.yml!"
 
 # Configuration errors
-config.load.failed: "Failed to save config.yml: {error}"
 config.error.loading: "CONFIGURATION LOADING ERROR! Disabling plugin..."
 config.error.enabling: "PLUGIN ENABLING ERROR! Disabling plugin..."
 
