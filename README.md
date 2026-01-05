@@ -1,7 +1,25 @@
-# kBackupSystem
+<div align="center">
 
-An efficient, secure, and fully automatic backup system for Minecraft worlds.
-Developer: vv0ta3fa9 (ImFriendlyy)
+# 🌊 kBackupSystem
+
+**An efficient, secure, and fully automatic backup system for Minecraft worlds**
+
+[![Latest Release](https://img.shields.io/github/v/release/ImFriendlyy/kBackupSystem?style=for-the-badge&logo=github&label=Release)](https://github.com/ImFriendlyy/kBackupSystem/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/ImFriendlyy/kBackupSystem/total?style=for-the-badge&logo=github&label=Downloads)](https://github.com/ImFriendlyy/kBackupSystem/releases)
+[![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red?style=for-the-badge)](LICENSE)
+
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.16+-green?style=for-the-badge&logo=minecraft&logoColor=white)](https://www.minecraft.net/)
+[![Spigot](https://img.shields.io/badge/Paper-1.16+-blue?style=for-the-badge)](https://papermc.io/)
+[![Paper](https://img.shields.io/badge/Paper-1.16+-blue?style=for-the-badge)](https://papermc.io/)
+[![Java](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://adoptium.net/)
+
+---
+
+**[📥 Download](https://github.com/ImFriendlyy/kBackupSystem/releases/latest)** • 
+**[🐛 Bug-report](https://github.com/ImFriendlyy/kBackupSystem/issues)** • 
+**[💬 Support](https://t.me/kapybarkaaa)**
+
+</div>
 
 ---
 
