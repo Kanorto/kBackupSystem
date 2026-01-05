@@ -2,7 +2,7 @@
 
 # Command messages
 command.usage: "&cUsage: /kbackupsystem <reload|start>"
-command.reload.success: "| Plugin reloaded!"
+command.reload.initiated: "| Reloading plugin..."
 command.start.initiated: "| Starting forced backup of all worlds from the list..."
 
 # Plugin lifecycle messages

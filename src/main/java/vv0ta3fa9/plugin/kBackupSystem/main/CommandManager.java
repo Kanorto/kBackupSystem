@@ -26,6 +26,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         String subcommand = args[0].toLowerCase();
         switch (subcommand) {
             case "reload":
+                send(sender, plugin.getMessageManager().getMessage("command.reload.initiated"));
                 plugin.reload = true;
                 plugin.getServer().getPluginManager().disablePlugin(plugin);
                 plugin.getServer().getPluginManager().enablePlugin(plugin);

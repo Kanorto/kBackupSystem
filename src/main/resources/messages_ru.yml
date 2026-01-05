@@ -3,7 +3,7 @@
 
 # Command messages
 command.usage: "&cИспользование: /kbackupsystem <reload|start>"
-command.reload.success: "| Плагин перезагружен!"
+command.reload.initiated: "| Перезагрузка плагина..."
 command.start.initiated: "| Запуск принудительного бэкапа всех миров из списка..."
 
 # Plugin lifecycle messages
